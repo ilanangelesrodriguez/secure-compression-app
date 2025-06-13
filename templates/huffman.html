@@ -1,0 +1,331 @@
+{% extends 'layout.html' %}
+
+{% block title %}Compresión Huffman{% endblock %}
+
+{% block extra_css %}
+<style>
+    .code-block {
+        font-family: 'Fira Code', monospace;
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        overflow-x: auto;
+        border-left: 4px solid #4361ee;
+    }
+    .char-code {
+        display: inline-block;
+        margin-right: 10px;
+        margin-bottom: 8px;
+        padding: 6px 12px;
+        background-color: #e9ecef;
+        border-radius: 6px;
+        font-family: 'Fira Code', monospace;
+        border-left: 3px solid #4361ee;
+        transition: all 0.3s ease;
+    }
+    .char-code:hover {
+        background-color: #dee2e6;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .progress-container {
+        height: 30px;
+        background-color: #e9ecef;
+        border-radius: 8px;
+        overflow: hidden;
+        margin: 15px 0;
+        position: relative;
+    }
+    .progress-bar-custom {
+        height: 100%;
+        background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+        border-radius: 8px;
+        transition: width 1s ease-in-out;
+    }
+    .progress-label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-weight: 600;
+        text-shadow: 0 0 3px rgba(0,0,0,0.5);
+    }
+    .result-section {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease-out;
+    }
+    .result-section.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .tab-content {
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 0 0 8px 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0"><i class="fas fa-compress me-2"></i>Codificación de Huffman</h4>
+                <span class="badge bg-light text-primary">Compresión sin pérdida</span>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-7">
+                        <h5 class="mb-3">¿Qué es la codificación Huffman?</h5>
+                        <p>El algoritmo de Huffman es un método de compresión que utiliza códigos de longitud variable para representar símbolos, asignando códigos más cortos a los símbolos más frecuentes.</p>
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            <span class="badge bg-primary">Compresión sin pérdida</span>
+                            <span class="badge bg-success">Códigos de longitud variable</span>
+                            <span class="badge bg-info">Árbol binario</span>
+                            <span class="badge bg-warning text-dark">Análisis de frecuencia</span>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="bg-light p-3 rounded">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-primary bg-opacity-10 p-2 rounded me-3">
+                                    <i class="fas fa-lightbulb text-primary"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">¿Sabías que?</h6>
+                                    <small class="text-muted">La codificación Huffman fue desarrollada por David A. Huffman en 1952.</small>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="bg-success bg-opacity-10 p-2 rounded me-3">
+                                    <i class="fas fa-chart-pie text-success"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Eficiencia</h6>
+                                    <small class="text-muted">Puede reducir el tamaño de los datos hasta en un 70%.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <form method="post" action="/huffman" id="huffmanForm">
+                    <div class="mb-4">
+                        <label for="text" class="form-label fw-bold">Texto a comprimir:</label>
+                        <textarea class="form-control" id="text" name="text" rows="5" required placeholder="Ingresa el texto que deseas comprimir...">{{ request.form.get('text', '') }}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-compress me-2"></i>Comprimir
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if result %}
+<div class="row mt-4 result-section" id="resultSection">
+    <div class="col-lg-12 mb-4">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Estadísticas de Compresión</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-label">Tamaño Original</div>
+                            <div class="stat-value" id="originalSize">{{ result.original_size }}</div>
+                            <div>bits</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-label">Tamaño Comprimido</div>
+                            <div class="stat-value" id="compressedSize">{{ result.compressed_size }}</div>
+                            <div>bits</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-label">Ratio de Compresión</div>
+                            <div class="stat-value" id="compressionRatio">{{ "%.2f"|format(result.compression_ratio) }}%</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <h6 class="mb-2">Eficiencia de la compresión:</h6>
+                    <div class="progress-container">
+                        <div class="progress-bar-custom" id="compressionProgressBar" style="width: {{ result.compression_ratio }}%"></div>
+                        <div class="progress-label">{{ "%.2f"|format(result.compression_ratio) }}% de reducción</div>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <canvas id="compressionChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-code me-2"></i>Resultados de la Codificación</h5>
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-tabs custom-tabs" id="resultTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="original-tab" data-bs-toggle="tab" data-bs-target="#original" type="button" role="tab" aria-controls="original" aria-selected="true">
+                            <i class="fas fa-file-alt me-2"></i>Texto Original
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="compressed-tab" data-bs-toggle="tab" data-bs-target="#compressed" type="button" role="tab" aria-controls="compressed" aria-selected="false">
+                            <i class="fas fa-file-archive me-2"></i>Texto Comprimido
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="decompressed-tab" data-bs-toggle="tab" data-bs-target="#decompressed" type="button" role="tab" aria-controls="decompressed" aria-selected="false">
+                            <i class="fas fa-file-alt me-2"></i>Texto Descomprimido
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="codes-tab" data-bs-toggle="tab" data-bs-target="#codes" type="button" role="tab" aria-controls="codes" aria-selected="false">
+                            <i class="fas fa-code me-2"></i>Códigos Huffman
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="resultTabsContent">
+                    <div class="tab-pane fade show active" id="original" role="tabpanel" aria-labelledby="original-tab">
+                        <h6>Texto original:</h6>
+                        <div class="code-block mb-3">{{ result.original_text }}</div>
+                    </div>
+                    <div class="tab-pane fade" id="compressed" role="tabpanel" aria-labelledby="compressed-tab">
+                        <h6>Texto comprimido (representación binaria):</h6>
+                        <div class="code-block mb-3" style="word-break: break-all;">{{ result.compressed }}</div>
+                    </div>
+                    <div class="tab-pane fade" id="decompressed" role="tabpanel" aria-labelledby="decompressed-tab">
+                        <h6>Texto descomprimido:</h6>
+                        <div class="code-block mb-3">{{ result.decompressed }}</div>
+                    </div>
+                    <div class="tab-pane fade" id="codes" role="tabpanel" aria-labelledby="codes-tab">
+                        <h6>Códigos Huffman:</h6>
+                        <div class="code-block">
+                            {% for char, code in result.codes.items() %}
+                                <span class="char-code">
+                                    '{{ char }}': {{ code }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4 text-center">
+                    <a href="/visualize_huffman" class="btn btn-outline-primary" target="_blank">
+                        <i class="fas fa-project-diagram me-2"></i>Visualizar Árbol de Huffman
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        {% if result %}
+            // Mostrar la sección de resultados con animación
+            setTimeout(() => {
+                document.getElementById('resultSection').classList.add('show');
+            }, 300);
+            
+            // Crear gráfico de comparación
+            const ctx = document.getElementById('compressionChart').getContext('2d');
+            const compressionChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Tamaño Original', 'Tamaño Comprimido'],
+                    datasets: [{
+                        label: 'Tamaño en bits',
+                        data: [{{ result.original_size }}, {{ result.compressed_size }}],
+                        backgroundColor: [
+                            'rgba(58, 12, 163, 0.7)',
+                            'rgba(67, 97, 238, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(58, 12, 163, 1)',
+                            'rgba(67, 97, 238, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Comparación de Tamaños',
+                            font: {
+                                size: 16
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Animación de contadores
+            function animateValue(id, start, end, duration) {
+                const obj = document.getElementById(id);
+                const range = end - start;
+                const minTimer = 50;
+                let stepTime = Math.abs(Math.floor(duration / range));
+                stepTime = Math.max(stepTime, minTimer);
+                
+                let startTime = new Date().getTime();
+                let endTime = startTime + duration;
+                let timer;
+                
+                function run() {
+                    let now = new Date().getTime();
+                    let remaining = Math.max((endTime - now) / duration, 0);
+                    let value = Math.round(end - (remaining * range));
+                    obj.innerHTML = value;
+                    if (value == end) {
+                        clearInterval(timer);
+                    }
+                }
+                
+                timer = setInterval(run, stepTime);
+                run();
+            }
+            
+            animateValue("originalSize", 0, {{ result.original_size }}, 1000);
+            animateValue("compressedSize", 0, {{ result.compressed_size }}, 1000);
+            
+            // Animación del ratio de compresión
+            let compressionRatio = {{ result.compression_ratio }};
+            let count = 0;
+            const interval = setInterval(() => {
+                count += 1;
+                document.getElementById("compressionRatio").innerHTML = count.toFixed(2) + "%";
+                if (count >= compressionRatio) {
+                    clearInterval(interval);
+                    document.getElementById("compressionRatio").innerHTML = compressionRatio.toFixed(2) + "%";
+                }
+            }, 20);
+        {% endif %}
+    });
+</script>
+{% endblock %}

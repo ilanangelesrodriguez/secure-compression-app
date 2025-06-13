@@ -1,0 +1,267 @@
+{% extends 'layout.html' %}
+
+{% block title %}Acerca de{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0"><i class="fas fa-info-circle me-2"></i>Acerca del Proyecto</h4>
+        <span class="badge bg-light text-dark">v1.0</span>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="bg-primary p-3 rounded-circle me-3">
+                        <i class="fas fa-shield-alt text-white fa-2x"></i>
+                    </div>
+                    <div>
+                        <h2 class="mb-0">SecureCompressionApp</h2>
+                        <p class="lead mb-0">Una aplicación web moderna para demostrar algoritmos de compresión y criptografía.</p>
+                    </div>
+                </div>
+                
+                <h5 class="mt-4 border-bottom pb-2">Descripción</h5>
+                <p>Este proyecto implementa dos algoritmos fundamentales en seguridad informática con una interfaz visual moderna e interactiva:</p>
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="bg-primary bg-opacity-10 p-2 rounded me-3">
+                                        <i class="fas fa-compress text-primary"></i>
+                                    </div>
+                                    <h5 class="mb-0">Codificación de Huffman</h5>
+                                </div>
+                                <p>Un algoritmo de compresión sin pérdida que utiliza códigos de longitud variable para representar símbolos, asignando códigos más cortos a los símbolos más frecuentes.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="bg-danger bg-opacity-10 p-2 rounded me-3">
+                                        <i class="fas fa-key text-danger"></i>
+                                    </div>
+                                    <h5 class="mb-0">Cifrado DES</h5>
+                                </div>
+                                <p>Un algoritmo de cifrado simétrico que opera en bloques de 64 bits con una clave de 56 bits, desarrollado en la década de 1970.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h5 class="mt-4 border-bottom pb-2">Tecnologías Utilizadas</h5>
+                <div class="row mb-4">
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="text-center">
+                            <div class="bg-light p-3 rounded-circle mx-auto mb-2" style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fab fa-python fa-2x text-primary"></i>
+                            </div>
+                            <h6>Flask</h6>
+                            <small class="text-muted">Backend</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="text-center">
+                            <div class="bg-light p-3 rounded-circle mx-auto mb-2" style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fab fa-bootstrap fa-2x text-purple"></i>
+                            </div>
+                            <h6>Bootstrap 5</h6>
+                            <small class="text-muted">Frontend</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="text-center">
+                            <div class="bg-light p-3 rounded-circle mx-auto mb-2" style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-chart-bar fa-2x text-success"></i>
+                            </div>
+                            <h6>Chart.js</h6>
+                            <small class="text-muted">Visualización</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="text-center">
+                            <div class="bg-light p-3 rounded-circle mx-auto mb-2" style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-lock fa-2x text-danger"></i>
+                            </div>
+                            <h6>pycryptodome</h6>
+                            <small class="text-muted">Criptografía</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <h5 class="mt-4 border-bottom pb-2">Desarrollado por</h5>
+                <div class="card bg-light border-0">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-dark text-white p-3 rounded-circle me-3">
+                                <i class="fas fa-user fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Ilan Angeles Rodriguez</h5>
+                                <div class="d-flex flex-wrap gap-3">
+                                    <a href="mailto:ilanangelesrodriguez@gmail.com" class="text-decoration-none">
+                                        <i class="fas fa-envelope me-1"></i>ilanangelesrodriguez@gmail.com
+                                    </a>
+                                    <a href="https://linkedin.com/in/ilanangelesrodriguez" target="_blank" class="text-decoration-none">
+                                        <i class="fab fa-linkedin me-1"></i>LinkedIn
+                                    </a>
+                                    <a href="https://github.com/ilanangelesrodriguez" target="_blank" class="text-decoration-none">
+                                        <i class="fab fa-github me-1"></i>GitHub
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Características</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex align-items-center">
+                                <div class="bg-primary bg-opacity-10 p-2 rounded me-3">
+                                    <i class="fas fa-compress text-primary"></i>
+                                </div>
+                                <div>
+                                    <strong>Compresión de texto</strong>
+                                    <div class="text-muted small">Algoritmo de Huffman</div>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center">
+                                <div class="bg-success bg-opacity-10 p-2 rounded me-3">
+                                    <i class="fas fa-project-diagram text-success"></i>
+                                </div>
+                                <div>
+                                    <strong>Visualización del árbol</strong>
+                                    <div class="text-muted small">Representación interactiva</div>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center">
+                                <div class="bg-info bg-opacity-10 p-2 rounded me-3">
+                                    <i class="fas fa-chart-bar text-info"></i>
+                                </div>
+                                <div>
+                                    <strong>Estadísticas de compresión</strong>
+                                    <div class="text-muted small">Análisis visual de eficiencia</div>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center">
+                                <div class="bg-danger bg-opacity-10 p-2 rounded me-3">
+                                    <i class="fas fa-lock text-danger"></i>
+                                </div>
+                                <div>
+                                    <strong>Cifrado de texto</strong>
+                                    <div class="text-muted small">Algoritmo DES</div>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center">
+                                <div class="bg-warning bg-opacity-10 p-2 rounded me-3">
+                                    <i class="fas fa-unlock text-warning"></i>
+                                </div>
+                                <div>
+                                    <strong>Descifrado de texto</strong>
+                                    <div class="text-muted small">Recuperación de datos</div>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center">
+                                <div class="bg-secondary bg-opacity-10 p-2 rounded me-3">
+                                    <i class="fas fa-mobile-alt text-secondary"></i>
+                                </div>
+                                <div>
+                                    <strong>Diseño responsivo</strong>
+                                    <div class="text-muted small">Compatible con dispositivos móviles</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Recursos</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a href="https://github.com/ilanangelesrodriguez/SecureCompressionApp" target="_blank" class="btn btn-outline-dark">
+                                <i class="fab fa-github me-2"></i>Código fuente
+                            </a>
+                            <a href="/huffman" class="btn btn-outline-primary">
+                                <i class="fas fa-compress me-2"></i>Probar Huffman
+                            </a>
+                            <a href="/des" class="btn btn-outline-danger">
+                                <i class="fas fa-key me-2"></i>Probar DES
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0"><i class="fas fa-graduation-cap me-2"></i>Información Académica</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Seguridad Informática - IX Ciclo</h5>
+                <p>Este proyecto fue desarrollado como parte de la Guía de Práctica Nº 08: "Compresión y Criptografía: Codificación Huffman y Método DES".</p>
+                
+                <div class="card bg-light border-0 mb-4">
+                    <div class="card-body">
+                        <h6 class="card-title">Objetivos del Proyecto</h6>
+                        <ul class="mb-0">
+                            <li>Comprender e implementar el algoritmo de codificación de Huffman para compresión de datos.</li>
+                            <li>Analizar la eficiencia de la compresión comparando tamaños de archivo.</li>
+                            <li>Comprender los principios del cifrado simétrico con el algoritmo DES.</li>
+                            <li>Realizar pruebas de cifrado y descifrado sobre mensajes de texto.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Aplicaciones Prácticas</h5>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="bg-primary bg-opacity-10 p-2 rounded me-2">
+                                    <i class="fas fa-file-archive text-primary"></i>
+                                </div>
+                                <h6 class="mb-0">Compresión de Archivos</h6>
+                            </div>
+                            <p class="text-muted small">La codificación Huffman se utiliza en formatos de compresión como ZIP y GZIP.</p>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="bg-success bg-opacity-10 p-2 rounded me-2">
+                                    <i class="fas fa-image text-success"></i>
+                                </div>
+                                <h6 class="mb-0">Compresión de Imágenes</h6>
+                            </div>
+                            <p class="text-muted small">Formatos como JPEG utilizan variantes de la codificación Huffman.</p>
+                        </div>
+                        <div>
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="bg-danger bg-opacity-10 p-2 rounded me-2">
+                                    <i class="fas fa-credit-card text-danger"></i>
+                                </div>
+                                <h6 class="mb-0">Seguridad Financiera</h6>
+                            </div>
+                            <p class="text-muted small">DES y sus variantes se han utilizado en sistemas bancarios y tarjetas inteligentes.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

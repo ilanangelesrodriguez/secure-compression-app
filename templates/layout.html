@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Compresión y Criptografía{% endblock %}</title>
+    <!-- Fuentes web -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Bootstrap y FontAwesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-shield-alt me-2"></i>Seguridad Informatica - Ilan
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home me-1"></i> Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/huffman"><i class="fas fa-compress me-1"></i> Huffman</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/des"><i class="fas fa-key me-1"></i> DES</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about"><i class="fas fa-info-circle me-1"></i> Acerca de</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-5">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="text-white py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="mb-3">Seguridad Informatica - Ilan</h4>
+                    <p class="mb-3 text-light">Una aplicación moderna para demostrar algoritmos de compresión y criptografía.</p>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-light p-2 rounded me-3">
+                            <i class="fas fa-shield-alt text-primary fa-2x"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Seguridad Informática</h5>
+                            <p class="mb-0 text-light">IX Ciclo - 2023</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 text-md-end mt-4 mt-md-0">
+                    <h4 class="mb-3">Desarrollado por</h4>
+                    <p class="mb-3 text-light">Ilan Angeles Rodriguez</p>
+                    <div class="social-links">
+                        <a href="mailto:ilanangelesrodriguez@gmail.com" class="text-white">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/ilanangelesrodriguez" target="_blank" class="text-white">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://github.com/ilanangelesrodriguez" target="_blank" class="text-white">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4 pt-4 border-top border-secondary">
+                <p class="mb-0 text-light">&copy; 2025 Seguridad Informatica - Ilan. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Animación de elementos al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.card, .jumbotron, .btn-lg');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.classList.add('fade-in');
+                }, index * 100);
+            });
+        });
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

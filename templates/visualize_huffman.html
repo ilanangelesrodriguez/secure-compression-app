@@ -1,0 +1,434 @@
+{% extends 'layout.html' %}
+
+{% block title %}Visualización del Árbol Huffman{% endblock %}
+
+{% block extra_css %}
+<style>
+    .tree-container {
+        width: 100%;
+        overflow: auto;
+        padding: 30px;
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        margin: 20px 0;
+        min-height: 400px;
+    }
+    
+    .node {
+        padding: 15px;
+        border-radius: 8px;
+        display: inline-block;
+        margin: 10px;
+        text-align: center;
+        transition: all 0.3s ease;
+        min-width: 120px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .internal-node {
+        background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(58, 12, 163, 0.1) 100%);
+        border: 2px solid rgba(67, 97, 238, 0.3);
+    }
+    
+    .leaf-node {
+        background: linear-gradient(135deg, rgba(247, 37, 133, 0.1) 0%, rgba(114, 9, 183, 0.1) 100%);
+        border: 2px solid rgba(247, 37, 133, 0.3);
+    }
+    
+    .node:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10;
+    }
+    
+    .node-content {
+        font-family: 'Fira Code', monospace;
+        font-weight: 500;
+    }
+    
+    .tree-level {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+    }
+    
+    .tree-edge {
+        position: relative;
+        height: 30px;
+    }
+    
+    .tree-edge::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        height: 30px;
+        width: 2px;
+        background-color: #6c757d;
+    }
+    
+    .tree-edge.left::after {
+        content: "0";
+        position: absolute;
+        top: 50%;
+        left: 40%;
+        transform: translate(-50%, -50%);
+        background-color: #e9ecef;
+        padding: 2px 6px;
+        border-radius: 50%;
+        font-size: 0.8rem;
+        font-weight: bold;
+        color: #4361ee;
+    }
+    
+    .tree-edge.right::after {
+        content: "1";
+        position: absolute;
+        top: 50%;
+        right: 40%;
+        transform: translate(50%, -50%);
+        background-color: #e9ecef;
+        padding: 2px 6px;
+        border-radius: 50%;
+        font-size: 0.8rem;
+        font-weight: bold;
+        color: #f72585;
+    }
+    
+    .huffman-code {
+        display: inline-block;
+        margin: 5px;
+        padding: 8px 12px;
+        background-color: #e9ecef;
+        border-radius: 8px;
+        font-family: 'Fira Code', monospace;
+        transition: all 0.3s ease;
+        border-left: 3px solid #4361ee;
+    }
+    
+    .huffman-code:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .char-display {
+        font-weight: bold;
+        color: #3a0ca3;
+    }
+    
+    .code-display {
+        color: #f72585;
+        font-weight: 500;
+    }
+    
+    .tree-info {
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .info-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    
+    .info-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+    
+    .legend-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    
+    .legend-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+        margin-right: 10px;
+    }
+    
+    .zoom-controls {
+        position: sticky;
+        top: 20px;
+        z-index: 100;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0"><i class="fas fa-project-diagram me-2"></i>Visualización del Árbol de Huffman</h4>
+        <div class="zoom-controls">
+            <div class="btn-group">
+                <button class="btn btn-sm btn-light" id="zoomIn">
+                    <i class="fas fa-search-plus"></i>
+                </button>
+                <button class="btn btn-sm btn-light" id="zoomReset">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <button class="btn btn-sm btn-light" id="zoomOut">
+                    <i class="fas fa-search-minus"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Esta visualización muestra el árbol de Huffman generado para la compresión. Los nodos internos muestran la frecuencia, mientras que los nodos hoja muestran el carácter y su frecuencia.
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Leyenda</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(58, 12, 163, 0.1) 100%); border: 2px solid rgba(67, 97, 238, 0.3);"></div>
+                            <span>Nodo Interno</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: linear-gradient(135deg, rgba(247, 37, 133, 0.1) 0%, rgba(114, 9, 183, 0.1) 100%); border: 2px solid rgba(247, 37, 133, 0.3);"></div>
+                            <span>Nodo Hoja (Carácter)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center" style="width: 20px; height: 20px; margin-right: 10px;">
+                                <span style="font-size: 0.8rem; color: #4361ee;">0</span>
+                            </div>
+                            <span>Camino Izquierdo</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center" style="width: 20px; height: 20px; margin-right: 10px;">
+                                <span style="font-size: 0.8rem; color: #f72585;">1</span>
+                            </div>
+                            <span>Camino Derecho</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tree-container" id="tree-visualization">
+            <!-- El árbol se generará con JavaScript -->
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="tree-info">
+                    <h5 class="mb-3">¿Cómo leer el árbol?</h5>
+                    <div class="info-item">
+                        <div class="info-icon bg-primary bg-opacity-10">
+                            <i class="fas fa-project-diagram text-primary"></i>
+                        </div>
+                        <div>
+                            <strong>Estructura:</strong> El árbol se construye de arriba hacia abajo, con el nodo raíz en la parte superior.
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon bg-success bg-opacity-10">
+                            <i class="fas fa-code-branch text-success"></i>
+                        </div>
+                        <div>
+                            <strong>Caminos:</strong> Para cada carácter, sigue el camino desde la raíz hasta la hoja, anotando 0 para izquierda y 1 para derecha.
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon bg-danger bg-opacity-10">
+                            <i class="fas fa-leaf text-danger"></i>
+                        </div>
+                        <div>
+                            <strong>Nodos hoja:</strong> Contienen los caracteres individuales y sus frecuencias en el texto original.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Códigos Huffman</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="huffman-codes" class="p-3 bg-light rounded">
+                            <!-- Los códigos se generarán con JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Datos del árbol de Huffman desde Flask
+    const treeData = {{ tree_data|tojson }};
+    
+    // Función para construir el árbol visualmente
+    function buildTree() {
+        const container = document.getElementById('tree-visualization');
+        const codesContainer = document.getElementById('huffman-codes');
+        
+        // Variables para el zoom
+        let scale = 1;
+        const zoomStep = 0.1;
+        
+        // Función recursiva para construir el árbol
+        function createNode(node, depth = 0) {
+            const nodeDiv = document.createElement('div');
+            const isLeaf = !node.children || node.children.length === 0;
+            
+            nodeDiv.className = `node ${isLeaf ? 'leaf-node' : 'internal-node'}`;
+            nodeDiv.setAttribute('data-depth', depth);
+            
+            const content = document.createElement('div');
+            content.className = 'node-content';
+            
+            if (isLeaf) {
+                const displayChar = node.char === ' ' ? '(espacio)' : node.char === '\n' ? '(nueva línea)' : node.char;
+                content.innerHTML = `<strong>${displayChar}</strong><br>Freq: ${node.freq}<br>Código: <span class="code-display">${node.path}</span>`;
+            } else {
+                content.innerHTML = `<strong>Interno</strong><br>Freq: ${node.freq}`;
+            }
+            
+            nodeDiv.appendChild(content);
+            
+            // Añadir efecto de hover para resaltar el camino
+            nodeDiv.addEventListener('mouseenter', () => {
+                if (isLeaf) {
+                    highlightPath(node.path);
+                }
+            });
+            
+            nodeDiv.addEventListener('mouseleave', () => {
+                clearHighlights();
+            });
+            
+            if (node.children && node.children.length > 0) {
+                const childrenDiv = document.createElement('div');
+                childrenDiv.className = 'node-children';
+                
+                node.children.forEach((child, index) => {
+                    const edgeDiv = document.createElement('div');
+                    edgeDiv.className = `tree-edge ${index === 0 ? 'left' : 'right'}`;
+                    childrenDiv.appendChild(edgeDiv);
+                    childrenDiv.appendChild(createNode(child, depth + 1));
+                });
+                
+                nodeDiv.appendChild(childrenDiv);
+            }
+            
+            return nodeDiv;
+        }
+        
+        // Función para resaltar un camino
+        function highlightPath(path) {
+            const codes = document.querySelectorAll('.huffman-code');
+            codes.forEach(code => {
+                if (code.getAttribute('data-code') === path) {
+                    code.style.backgroundColor = '#d1e7dd';
+                    code.style.borderLeftColor = '#198754';
+                    code.style.transform = 'translateY(-5px)';
+                    code.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+                }
+            });
+        }
+        
+        // Función para limpiar resaltados
+        function clearHighlights() {
+            const codes = document.querySelectorAll('.huffman-code');
+            codes.forEach(code => {
+                code.style.backgroundColor = '#e9ecef';
+                code.style.borderLeftColor = '#4361ee';
+                code.style.transform = 'translateY(0)';
+                code.style.boxShadow = 'none';
+            });
+        }
+        
+        // Construir el árbol
+        if (treeData && Object.keys(treeData).length > 0) {
+            const treeWrapper = document.createElement('div');
+            treeWrapper.id = 'tree-wrapper';
+            treeWrapper.style.transform = `scale(${scale})`;
+            treeWrapper.style.transformOrigin = 'top center';
+            treeWrapper.style.transition = 'transform 0.3s ease';
+            
+            treeWrapper.appendChild(createNode(treeData));
+            container.appendChild(treeWrapper);
+            
+            // Generar los códigos
+            const codes = {};
+            
+            function traverseForCodes(node, code = '') {
+                if (!node) return;
+                
+                if (node.char !== 'Internal') {
+                    codes[node.char] = code || node.path;
+                }
+                
+                if (node.children) {
+                    node.children.forEach((child, index) => {
+                        traverseForCodes(child, code + index);
+                    });
+                }
+            }
+            
+            traverseForCodes(treeData);
+            
+            // Mostrar los códigos
+            let codesHTML = '';
+            for (const char in codes) {
+                const displayChar = char === ' ' ? '(espacio)' : char === '\n' ? '(nueva línea)' : char;
+                codesHTML += `<span class="huffman-code" data-code="${codes[char]}">
+                                <span class="char-display">'${displayChar}'</span>: 
+                                <span class="code-display">${codes[char]}</span>
+                              </span>`;
+            }
+            codesContainer.innerHTML = codesHTML || '<div class="alert alert-warning">No hay códigos disponibles.</div>';
+            
+            // Configurar controles de zoom
+            document.getElementById('zoomIn').addEventListener('click', () => {
+                scale += zoomStep;
+                treeWrapper.style.transform = `scale(${scale})`;
+            });
+            
+            document.getElementById('zoomOut').addEventListener('click', () => {
+                if (scale > zoomStep) {
+                    scale -= zoomStep;
+                    treeWrapper.style.transform = `scale(${scale})`;
+                }
+            });
+            
+            document.getElementById('zoomReset').addEventListener('click', () => {
+                scale = 1;
+                treeWrapper.style.transform = `scale(${scale})`;
+            });
+            
+        } else {
+            container.innerHTML = '<div class="alert alert-warning">No hay datos disponibles para visualizar el árbol.</div>';
+        }
+    }
+    
+    // Construir el árbol cuando la página cargue
+    document.addEventListener('DOMContentLoaded', buildTree);
+</script>
+{% endblock %}

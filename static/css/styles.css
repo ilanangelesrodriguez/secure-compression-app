@@ -1,0 +1,384 @@
+/* Estilos mejorados para SecureCompressionApp */
+
+:root {
+  --primary-color: #4361ee;
+  --secondary-color: #3a0ca3;
+  --success-color: #4cc9f0;
+  --danger-color: #f72585;
+  --warning-color: #fca311;
+  --info-color: #4895ef;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+  --gradient-primary: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+  --gradient-secondary: linear-gradient(135deg, #f72585 0%, #7209b7 100%);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --border-radius: 12px;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Navbar mejorado */
+.navbar {
+  background: var(--gradient-primary) !important;
+  box-shadow: var(--shadow-md);
+  padding: 15px 0;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: -0.5px;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: var(--transition);
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Cards mejorados */
+.card {
+  border: none;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 25px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-header {
+  font-weight: 600;
+  padding: 15px 20px;
+  letter-spacing: 0.5px;
+}
+
+.card-body {
+  padding: 25px;
+}
+
+/* Botones mejorados */
+.btn {
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  border: none;
+}
+
+.btn-success {
+  background: var(--gradient-secondary);
+  border: none;
+}
+
+/* Jumbotron mejorado */
+.jumbotron {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  padding: 3rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.jumbotron::before {
+  content: "";
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(67, 97, 238, 0.1);
+  z-index: 0;
+}
+
+.jumbotron::after {
+  content: "";
+  position: absolute;
+  bottom: -80px;
+  left: -80px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(247, 37, 133, 0.1);
+  z-index: 0;
+}
+
+.jumbotron > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Footer mejorado */
+footer {
+  background: var(--dark-color);
+  box-shadow: var(--shadow-md);
+  padding: 40px 0 20px;
+}
+
+.social-links a {
+  font-size: 1.4rem;
+  margin: 0 10px;
+  display: inline-block;
+  transition: var(--transition);
+}
+
+.social-links a:hover {
+  transform: translateY(-5px) rotate(8deg);
+  color: var(--primary-color) !important;
+}
+
+/* Formularios mejorados */
+textarea.form-control,
+input.form-control {
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  padding: 12px 15px;
+  transition: var(--transition);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+textarea.form-control:focus,
+input.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.25);
+}
+
+/* Bloques de código mejorados */
+.code-block {
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+  padding: 15px;
+  font-family: "Fira Code", monospace;
+  position: relative;
+  overflow-x: auto;
+}
+
+.char-code {
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 8px;
+  padding: 5px 10px;
+  background-color: #e9ecef;
+  border-radius: 6px;
+  font-family: "Fira Code", monospace;
+  transition: var(--transition);
+  border-left: 3px solid var(--primary-color);
+}
+
+.char-code:hover {
+  background-color: #dee2e6;
+  transform: translateY(-2px);
+}
+
+/* Estadísticas mejoradas */
+.stat-card {
+  text-align: center;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.stat-card .stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 10px 0;
+}
+
+.stat-card .stat-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Estilos para dispositivos móviles */
+@media (max-width: 768px) {
+  .jumbotron {
+    padding: 2rem 1rem;
+  }
+
+  .display-4 {
+    font-size: 2rem;
+  }
+
+  .lead {
+    font-size: 1rem;
+  }
+
+  .stat-card .stat-value {
+    font-size: 2rem;
+  }
+}
+
+/* Visualización del árbol de Huffman mejorada */
+.tree-container {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: var(--border-radius);
+  overflow-x: auto;
+  margin: 20px 0;
+}
+
+.node {
+  padding: 15px;
+  border-radius: 8px;
+  display: inline-block;
+  margin: 8px;
+  text-align: center;
+  transition: var(--transition);
+  min-width: 100px;
+}
+
+.internal-node {
+  background-color: rgba(67, 97, 238, 0.1);
+  border: 2px solid rgba(67, 97, 238, 0.3);
+}
+
+.leaf-node {
+  background-color: rgba(247, 37, 133, 0.1);
+  border: 2px solid rgba(247, 37, 133, 0.3);
+}
+
+.node:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-sm);
+}
+
+.node-content {
+  font-family: "Fira Code", monospace;
+  font-weight: 500;
+}
+
+/* Badges mejorados */
+.badge {
+  padding: 6px 10px;
+  font-weight: 500;
+  border-radius: 6px;
+}
+
+/* Alertas mejoradas */
+.alert {
+  border-radius: var(--border-radius);
+  border: none;
+  padding: 15px 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Tabs personalizados */
+.custom-tabs {
+  border-bottom: none;
+  margin-bottom: 20px;
+}
+
+.custom-tabs .nav-link {
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-right: 10px;
+  font-weight: 500;
+  color: #495057;
+  transition: var(--transition);
+}
+
+.custom-tabs .nav-link:hover {
+  background-color: #e9ecef;
+}
+
+.custom-tabs .nav-link.active {
+  color: #fff;
+  background: var(--gradient-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Efectos de hover para cards */
+.feature-card {
+  height: 100%;
+  transition: var(--transition);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  border: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-lg);
+}
+
+.feature-card .card-header {
+  transition: var(--transition);
+}
+
+.feature-card:hover .card-header {
+  background: var(--gradient-primary);
+  color: white;
+}
+
+/* Gráficos de estadísticas */
+.chart-container {
+  position: relative;
+  height: 200px;
+  width: 100%;
+  margin: 20px 0;
+}

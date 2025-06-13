@@ -11,90 +11,123 @@
         background-color: #f8f9fa;
         border-radius: 12px;
         margin: 20px 0;
-        min-height: 400px;
+        min-height: 500px;
+        position: relative;
     }
     
-    .node {
-        padding: 15px;
-        border-radius: 8px;
-        display: inline-block;
-        margin: 10px;
-        text-align: center;
-        transition: all 0.3s ease;
-        min-width: 120px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    /* Estilos para el árbol */
+    .tree {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
     
-    .internal-node {
-        background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(58, 12, 163, 0.1) 100%);
-        border: 2px solid rgba(67, 97, 238, 0.3);
-    }
-    
-    .leaf-node {
-        background: linear-gradient(135deg, rgba(247, 37, 133, 0.1) 0%, rgba(114, 9, 183, 0.1) 100%);
-        border: 2px solid rgba(247, 37, 133, 0.3);
-    }
-    
-    .node:hover {
-        transform: scale(1.05);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        z-index: 10;
-    }
-    
-    .node-content {
-        font-family: 'Fira Code', monospace;
-        font-weight: 500;
+    /* SVG para las líneas */
+    .tree-connections {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
     }
     
     .tree-level {
         display: flex;
         justify-content: center;
-        margin-bottom: 30px;
-    }
-    
-    .tree-edge {
+        margin-bottom: 60px;
+        width: 100%;
         position: relative;
-        height: 30px;
+        z-index: 2;
     }
     
-    .tree-edge::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 50%;
-        height: 30px;
-        width: 2px;
-        background-color: #6c757d;
+    .tree-node {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        margin: 0 15px;
+        transition: all 0.3s ease;
     }
     
-    .tree-edge.left::after {
-        content: "0";
-        position: absolute;
-        top: 50%;
-        left: 40%;
-        transform: translate(-50%, -50%);
-        background-color: #e9ecef;
-        padding: 2px 6px;
+    .node-circle {
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
-        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-weight: bold;
+        position: relative;
+        z-index: 2;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .internal-node .node-circle {
+        background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+        color: white;
+        border: 2px solid #3a0ca3;
+    }
+    
+    .leaf-node .node-circle {
+        background: linear-gradient(135deg, #f72585 0%, #7209b7 100%);
+        color: white;
+        border: 2px solid #7209b7;
+    }
+    
+    .node-circle:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .node-content {
+        font-family: 'Fira Code', monospace;
+        text-align: center;
+        font-size: 0.9rem;
+    }
+    
+    .node-details {
+        margin-top: 8px;
+        background-color: white;
+        padding: 5px 10px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+    
+    .node-details:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Etiquetas de conexión */
+    .path-label {
+        background-color: white;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: absolute;
+        z-index: 3;
+    }
+    
+    .path-label-0 {
         color: #4361ee;
     }
     
-    .tree-edge.right::after {
-        content: "1";
-        position: absolute;
-        top: 50%;
-        right: 40%;
-        transform: translate(50%, -50%);
-        background-color: #e9ecef;
-        padding: 2px 6px;
-        border-radius: 50%;
-        font-size: 0.8rem;
-        font-weight: bold;
+    .path-label-1 {
         color: #f72585;
     }
     
+    /* Huffman Codes */
     .huffman-code {
         display: inline-block;
         margin: 5px;
@@ -108,7 +141,7 @@
     
     .huffman-code:hover {
         transform: translateY(-3px);
-        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     }
     
     .char-display {
@@ -121,44 +154,7 @@
         font-weight: 500;
     }
     
-    .tree-info {
-        background-color: #fff;
-        border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    
-    .info-item {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-    
-    .info-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 15px;
-        flex-shrink: 0;
-    }
-    
-    .legend-item {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-    
-    .legend-color {
-        width: 20px;
-        height: 20px;
-        border-radius: 4px;
-        margin-right: 10px;
-    }
-    
+    /* Zoom controls */
     .zoom-controls {
         position: sticky;
         top: 20px;
@@ -166,6 +162,69 @@
         display: flex;
         justify-content: center;
         margin-bottom: 20px;
+    }
+    
+    /* Legend */
+    .legend-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    
+    .legend-circle {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+    
+    .tree-node {
+        opacity: 0;
+    }
+    
+    .tree-node.show {
+        opacity: 1;
+        transition: opacity 0.5s ease-out;
+    }
+    
+    /* No data message */
+    .no-data-message {
+        text-align: center;
+        padding: 50px 0;
+    }
+    
+    .no-data-icon {
+        font-size: 4rem;
+        color: #dee2e6;
+        margin-bottom: 20px;
+    }
+    
+    /* Highlighted paths */
+    .highlight-path {
+        stroke: #ffc107;
+        stroke-width: 3;
+        filter: drop-shadow(0px 0px 3px rgba(255, 193, 7, 0.5));
+    }
+    
+    .highlight-node .node-circle {
+        box-shadow: 0 0 0 4px rgba(255, 193, 7, 0.5);
+        transform: scale(1.1);
     }
 </style>
 {% endblock %}
@@ -203,21 +262,21 @@
                     </div>
                     <div class="card-body">
                         <div class="legend-item">
-                            <div class="legend-color" style="background: linear-gradient(135deg, rgba(67, 97, 238, 0.1) 0%, rgba(58, 12, 163, 0.1) 100%); border: 2px solid rgba(67, 97, 238, 0.3);"></div>
+                            <div class="legend-circle" style="background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);"></div>
                             <span>Nodo Interno</span>
                         </div>
                         <div class="legend-item">
-                            <div class="legend-color" style="background: linear-gradient(135deg, rgba(247, 37, 133, 0.1) 0%, rgba(114, 9, 183, 0.1) 100%); border: 2px solid rgba(247, 37, 133, 0.3);"></div>
+                            <div class="legend-circle" style="background: linear-gradient(135deg, #f72585 0%, #7209b7 100%);"></div>
                             <span>Nodo Hoja (Carácter)</span>
                         </div>
                         <div class="legend-item">
-                            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center" style="width: 20px; height: 20px; margin-right: 10px;">
+                            <div class="bg-white rounded-circle d-flex align-items-center justify-content-center" style="width: 20px; height: 20px; margin-right: 10px; border: 1px solid #dee2e6;">
                                 <span style="font-size: 0.8rem; color: #4361ee;">0</span>
                             </div>
                             <span>Camino Izquierdo</span>
                         </div>
                         <div class="legend-item">
-                            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center" style="width: 20px; height: 20px; margin-right: 10px;">
+                            <div class="bg-white rounded-circle d-flex align-items-center justify-content-center" style="width: 20px; height: 20px; margin-right: 10px; border: 1px solid #dee2e6;">
                                 <span style="font-size: 0.8rem; color: #f72585;">1</span>
                             </div>
                             <span>Camino Derecho</span>
@@ -227,36 +286,45 @@
             </div>
         </div>
         
-        <div class="tree-container" id="tree-visualization">
-            <!-- El árbol se generará con JavaScript -->
+        <div class="tree-container" id="tree-container">
+            <div id="tree-visualization" class="tree">
+                <!-- El árbol se generará con JavaScript -->
+                <svg class="tree-connections" id="tree-connections">
+                    <!-- Las conexiones se generarán con JavaScript -->
+                </svg>
+            </div>
         </div>
         
         <div class="row">
             <div class="col-md-6">
-                <div class="tree-info">
-                    <h5 class="mb-3">¿Cómo leer el árbol?</h5>
-                    <div class="info-item">
-                        <div class="info-icon bg-primary bg-opacity-10">
-                            <i class="fas fa-project-diagram text-primary"></i>
-                        </div>
-                        <div>
-                            <strong>Estructura:</strong> El árbol se construye de arriba hacia abajo, con el nodo raíz en la parte superior.
-                        </div>
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">¿Cómo leer el árbol?</h5>
                     </div>
-                    <div class="info-item">
-                        <div class="info-icon bg-success bg-opacity-10">
-                            <i class="fas fa-code-branch text-success"></i>
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded me-3">
+                                <i class="fas fa-project-diagram text-primary"></i>
+                            </div>
+                            <div>
+                                <strong>Estructura:</strong> El árbol se construye de arriba hacia abajo, con el nodo raíz en la parte superior.
+                            </div>
                         </div>
-                        <div>
-                            <strong>Caminos:</strong> Para cada carácter, sigue el camino desde la raíz hasta la hoja, anotando 0 para izquierda y 1 para derecha.
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-success bg-opacity-10 p-2 rounded me-3">
+                                <i class="fas fa-code-branch text-success"></i>
+                            </div>
+                            <div>
+                                <strong>Caminos:</strong> Para cada carácter, sigue el camino desde la raíz hasta la hoja, anotando 0 para izquierda y 1 para derecha.
+                            </div>
                         </div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-icon bg-danger bg-opacity-10">
-                            <i class="fas fa-leaf text-danger"></i>
-                        </div>
-                        <div>
-                            <strong>Nodos hoja:</strong> Contienen los caracteres individuales y sus frecuencias en el texto original.
+                        <div class="d-flex align-items-center">
+                            <div class="bg-danger bg-opacity-10 p-2 rounded me-3">
+                                <i class="fas fa-leaf text-danger"></i>
+                            </div>
+                            <div>
+                                <strong>Nodos hoja:</strong> Contienen los caracteres individuales y sus frecuencias en el texto original.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -281,123 +349,260 @@
 {% block scripts %}
 <script>
     // Datos del árbol de Huffman desde Flask
-    const treeData = {{ tree_data|tojson }};
+    const treeData = {{ tree_data|tojson if tree_data else '{}' }};
     
     // Función para construir el árbol visualmente
     function buildTree() {
         const container = document.getElementById('tree-visualization');
+        const svgContainer = document.getElementById('tree-connections');
+        const treeContainer = document.getElementById('tree-container');
         const codesContainer = document.getElementById('huffman-codes');
         
         // Variables para el zoom
         let scale = 1;
         const zoomStep = 0.1;
         
-        // Función recursiva para construir el árbol
-        function createNode(node, depth = 0) {
-            const nodeDiv = document.createElement('div');
-            const isLeaf = !node.children || node.children.length === 0;
+        // Verificar si hay datos del árbol
+        if (!treeData || Object.keys(treeData).length === 0) {
+            container.innerHTML = `
+                <div class="no-data-message">
+                    <div class="no-data-icon">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <h4>No hay datos disponibles para visualizar el árbol</h4>
+                    <p class="text-muted">Por favor, comprima algún texto primero para generar un árbol de Huffman.</p>
+                    <a href="/huffman" class="btn btn-primary mt-3">
+                        <i class="fas fa-compress me-2"></i>Ir a Compresión Huffman
+                    </a>
+                </div>
+            `;
             
-            nodeDiv.className = `node ${isLeaf ? 'leaf-node' : 'internal-node'}`;
-            nodeDiv.setAttribute('data-depth', depth);
+            codesContainer.innerHTML = '<div class="alert alert-warning">No hay códigos disponibles.</div>';
+            return;
+        }
+        
+        // Estructura para almacenar referencias a los nodos del DOM
+        const domNodes = {};
+        
+        // Función para crear el árbol por niveles
+        function createTreeByLevels(root) {
+            if (!root) return;
             
-            const content = document.createElement('div');
-            content.className = 'node-content';
-            
-            if (isLeaf) {
-                const displayChar = node.char === ' ' ? '(espacio)' : node.char === '\n' ? '(nueva línea)' : node.char;
-                content.innerHTML = `<strong>${displayChar}</strong><br>Freq: ${node.freq}<br>Código: <span class="code-display">${node.path}</span>`;
-            } else {
-                content.innerHTML = `<strong>Interno</strong><br>Freq: ${node.freq}`;
-            }
-            
-            nodeDiv.appendChild(content);
-            
-            // Añadir efecto de hover para resaltar el camino
-            nodeDiv.addEventListener('mouseenter', () => {
-                if (isLeaf) {
-                    highlightPath(node.path);
-                }
-            });
-            
-            nodeDiv.addEventListener('mouseleave', () => {
-                clearHighlights();
-            });
-            
-            if (node.children && node.children.length > 0) {
-                const childrenDiv = document.createElement('div');
-                childrenDiv.className = 'node-children';
+            // Primero, calculamos la profundidad del árbol
+            function getMaxDepth(node, depth = 0) {
+                if (!node) return 0;
+                if (!node.children || node.children.length === 0) return depth;
                 
-                node.children.forEach((child, index) => {
-                    const edgeDiv = document.createElement('div');
-                    edgeDiv.className = `tree-edge ${index === 0 ? 'left' : 'right'}`;
-                    childrenDiv.appendChild(edgeDiv);
-                    childrenDiv.appendChild(createNode(child, depth + 1));
+                let maxChildDepth = 0;
+                node.children.forEach(child => {
+                    const childDepth = getMaxDepth(child, depth + 1);
+                    maxChildDepth = Math.max(maxChildDepth, childDepth);
                 });
                 
-                nodeDiv.appendChild(childrenDiv);
+                return maxChildDepth;
             }
             
-            return nodeDiv;
-        }
-        
-        // Función para resaltar un camino
-        function highlightPath(path) {
-            const codes = document.querySelectorAll('.huffman-code');
-            codes.forEach(code => {
-                if (code.getAttribute('data-code') === path) {
-                    code.style.backgroundColor = '#d1e7dd';
-                    code.style.borderLeftColor = '#198754';
-                    code.style.transform = 'translateY(-5px)';
-                    code.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+            const maxDepth = getMaxDepth(root);
+            
+            // Crear un array para almacenar los nodos por nivel
+            const levels = Array(maxDepth + 1).fill().map(() => []);
+            
+            // Función para llenar los niveles
+            function fillLevels(node, depth = 0, path = '') {
+                if (!node) return;
+                
+                // Añadir el nodo al nivel correspondiente
+                levels[depth].push({
+                    node: node,
+                    path: path
+                });
+                
+                // Procesar los hijos
+                if (node.children && node.children.length > 0) {
+                    node.children.forEach((child, index) => {
+                        fillLevels(child, depth + 1, path + index);
+                    });
                 }
-            });
-        }
-        
-        // Función para limpiar resaltados
-        function clearHighlights() {
-            const codes = document.querySelectorAll('.huffman-code');
-            codes.forEach(code => {
-                code.style.backgroundColor = '#e9ecef';
-                code.style.borderLeftColor = '#4361ee';
-                code.style.transform = 'translateY(0)';
-                code.style.boxShadow = 'none';
-            });
-        }
-        
-        // Construir el árbol
-        if (treeData && Object.keys(treeData).length > 0) {
+            }
+            
+            fillLevels(root);
+            
+            // Crear el árbol visual
             const treeWrapper = document.createElement('div');
             treeWrapper.id = 'tree-wrapper';
             treeWrapper.style.transform = `scale(${scale})`;
             treeWrapper.style.transformOrigin = 'top center';
             treeWrapper.style.transition = 'transform 0.3s ease';
             
-            treeWrapper.appendChild(createNode(treeData));
+            // Crear cada nivel
+            levels.forEach((level, levelIndex) => {
+                const levelDiv = document.createElement('div');
+                levelDiv.className = 'tree-level';
+                levelDiv.dataset.level = levelIndex;
+                
+                // Crear los nodos de este nivel
+                level.forEach((item, nodeIndex) => {
+                    const { node, path } = item;
+                    const isLeaf = !node.children || node.children.length === 0;
+                    
+                    const nodeDiv = document.createElement('div');
+                    nodeDiv.className = `tree-node ${isLeaf ? 'leaf-node' : 'internal-node'}`;
+                    nodeDiv.setAttribute('data-path', path);
+                    nodeDiv.id = `node-${path}`;
+                    
+                    // Guardar referencia al DOM node
+                    domNodes[path] = nodeDiv;
+                    
+                    // Crear el círculo del nodo
+                    const circleDiv = document.createElement('div');
+                    circleDiv.className = 'node-circle';
+                    
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'node-content';
+                    
+                    if (isLeaf) {
+                        const displayChar = node.char === ' ' ? '␣' : 
+                                          node.char === '\n' ? '↵' : 
+                                          node.char === '\t' ? '→' : node.char;
+                        contentDiv.textContent = displayChar;
+                    } else {
+                        contentDiv.textContent = node.freq;
+                    }
+                    
+                    circleDiv.appendChild(contentDiv);
+                    nodeDiv.appendChild(circleDiv);
+                    
+                    // Añadir detalles del nodo
+                    const detailsDiv = document.createElement('div');
+                    detailsDiv.className = 'node-details';
+                    
+                    if (isLeaf) {
+                        const displayChar = node.char === ' ' ? 'espacio' : 
+                                          node.char === '\n' ? 'nueva línea' : 
+                                          node.char === '\t' ? 'tabulación' : node.char;
+                        detailsDiv.innerHTML = `<strong>${displayChar}</strong><br>Freq: ${node.freq}`;
+                    } else {
+                        detailsDiv.innerHTML = `<strong>Interno</strong><br>Freq: ${node.freq}`;
+                    }
+                    
+                    nodeDiv.appendChild(detailsDiv);
+                    levelDiv.appendChild(nodeDiv);
+                });
+                
+                treeWrapper.appendChild(levelDiv);
+            });
+            
             container.appendChild(treeWrapper);
             
-            // Generar los códigos
+            // Una vez que se ha creado el árbol, dibujar las conexiones SVG
+            setTimeout(() => {
+                drawConnections(levels);
+            }, 100);
+            
+            // Animar la aparición de los nodos
+            setTimeout(() => {
+                const nodes = document.querySelectorAll('.tree-node');
+                nodes.forEach((node, index) => {
+                    setTimeout(() => {
+                        node.classList.add('show');
+                    }, index * 100);
+                });
+            }, 300);
+            
+            return levels;
+        }
+        
+        // Función para dibujar las conexiones entre nodos
+        function drawConnections(levels) {
+            // Limpiar el SVG
+            svgContainer.innerHTML = '';
+            
+            // Ajustar el tamaño del SVG al contenedor del árbol
+            const treeWrapper = document.getElementById('tree-wrapper');
+            if (!treeWrapper) return;
+            
+            const treeRect = treeWrapper.getBoundingClientRect();
+            const containerRect = treeContainer.getBoundingClientRect();
+
+            svgContainer.setAttribute('width', treeRect.width);
+            svgContainer.setAttribute('height', treeRect.height);
+            
+            // Dibujar las conexiones
+            for (let i = 1; i < levels.length; i++) {
+                const level = levels[i];
+                
+                level.forEach(item => {
+                    const { path } = item;
+                    if (path.length > 0) {
+                        const parentPath = path.slice(0, -1);
+                        const isRightChild = path.slice(-1) === '1';
+                        
+                        const childNode = document.getElementById(`node-${path}`);
+                        const parentNode = document.getElementById(`node-${parentPath}`);
+                        
+                        if (childNode && parentNode) {
+                            const childRect = childNode.getBoundingClientRect();
+                            const parentRect = parentNode.getBoundingClientRect();
+                            
+                            // Calcular posiciones relativas al SVG
+                            const childX = childRect.left - containerRect.left + childRect.width / 2;
+                            const childY = childRect.top - containerRect.top;
+                            const parentX = parentRect.left - containerRect.left + parentRect.width / 2;
+                            const parentY = parentRect.top - containerRect.top + parentRect.height;
+                            
+                            // Crear la línea SVG
+                            const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                            
+                            // Usar una curva Bezier para conectar los nodos
+                            const midY = (childY + parentY) / 2;
+                            const pathData = `M ${parentX} ${parentY} C ${parentX} ${midY}, ${childX} ${midY}, ${childX} ${childY}`;
+                            
+                            line.setAttribute('d', pathData);
+                            line.setAttribute('stroke', isRightChild ? '#f72585' : '#4361ee');
+                            line.setAttribute('stroke-width', '2');
+                            line.setAttribute('fill', 'none');
+                            line.setAttribute('data-parent', parentPath);
+                            line.setAttribute('data-child', path);
+                            
+                            svgContainer.appendChild(line);
+                            
+                            // Añadir etiqueta de camino (0/1)
+                            const labelX = (parentX + childX) / 2;
+                            const labelY = (parentY + childY) / 2;
+                            
+                            const labelDiv = document.createElement('div');
+                            labelDiv.className = `path-label path-label-${isRightChild ? '1' : '0'}`;
+                            labelDiv.textContent = isRightChild ? '1' : '0';
+                            labelDiv.style.left = `${labelX}px`;
+                            labelDiv.style.top = `${labelY}px`;
+                            labelDiv.dataset.path = `${parentPath}-${path}`;
+                            
+                            treeContainer.appendChild(labelDiv);
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Generar los códigos Huffman
+        function generateHuffmanCodes(levels) {
             const codes = {};
             
-            function traverseForCodes(node, code = '') {
-                if (!node) return;
-                
-                if (node.char !== 'Internal') {
-                    codes[node.char] = code || node.path;
-                }
-                
-                if (node.children) {
-                    node.children.forEach((child, index) => {
-                        traverseForCodes(child, code + index);
-                    });
-                }
-            }
-            
-            traverseForCodes(treeData);
+            // Encontrar todos los nodos hoja
+            levels.forEach(level => {
+                level.forEach(item => {
+                    if (!item.node.children || item.node.children.length === 0) {
+                        codes[item.node.char] = item.path.split('').map(bit => bit === '0' ? '0' : '1').join('');
+                    }
+                });
+            });
             
             // Mostrar los códigos
             let codesHTML = '';
             for (const char in codes) {
-                const displayChar = char === ' ' ? '(espacio)' : char === '\n' ? '(nueva línea)' : char;
+                const displayChar = char === ' ' ? 'espacio' : 
+                                   char === '\n' ? 'nueva línea' : 
+                                   char === '\t' ? 'tabulación' : char;
                 codesHTML += `<span class="huffman-code" data-code="${codes[char]}">
                                 <span class="char-display">'${displayChar}'</span>: 
                                 <span class="code-display">${codes[char]}</span>
@@ -405,26 +610,198 @@
             }
             codesContainer.innerHTML = codesHTML || '<div class="alert alert-warning">No hay códigos disponibles.</div>';
             
+            // Añadir interactividad a los códigos
+            document.querySelectorAll('.huffman-code').forEach(codeElement => {
+                codeElement.addEventListener('mouseenter', () => {
+                    const code = codeElement.getAttribute('data-code');
+                    highlightPath(code);
+                });
+                
+                codeElement.addEventListener('mouseleave', () => {
+                    clearHighlights();
+                });
+            });
+        }
+        
+        // Función para resaltar un camino
+        function highlightPath(code) {
+            // Resaltar el código correspondiente
+            const codes = document.querySelectorAll('.huffman-code');
+            codes.forEach(codeElement => {
+                if (codeElement.getAttribute('data-code') === code) {
+                    codeElement.style.backgroundColor = '#d1e7dd';
+                    codeElement.style.borderLeftColor = '#198754';
+                    codeElement.style.transform = 'translateY(-5px)';
+                    codeElement.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+                }
+            });
+            
+            // Resaltar los nodos y conexiones en el camino
+            let currentPath = '';
+            
+            for (let i = 0; i <= code.length; i++) {
+                // Resaltar el nodo actual
+                const node = document.getElementById(`node-${currentPath}`);
+                if (node) {
+                    node.classList.add('highlight-node');
+                }
+                
+                // Si no es el último paso, resaltar la conexión al siguiente nodo
+                if (i < code.length) {
+                    const nextBit = code[i];
+                    const nextPath = currentPath + nextBit;
+                    
+                    // Resaltar la conexión
+                    const paths = svgContainer.querySelectorAll('path');
+                    paths.forEach(path => {
+                        if (path.getAttribute('data-parent') === currentPath && 
+                            path.getAttribute('data-child') === nextPath) {
+                            path.classList.add('highlight-path');
+                        }
+                    });
+                    
+                    // Actualizar el camino
+                    currentPath = nextPath;
+                }
+            }
+        }
+        
+        // Función para limpiar resaltados
+        function clearHighlights() {
+            // Restaurar códigos
+            const codes = document.querySelectorAll('.huffman-code');
+            codes.forEach(code => {
+                code.style.backgroundColor = '#e9ecef';
+                code.style.borderLeftColor = '#4361ee';
+                code.style.transform = 'translateY(0)';
+                code.style.boxShadow = 'none';
+            });
+            
+            // Restaurar nodos
+            const nodes = document.querySelectorAll('.tree-node');
+            nodes.forEach(node => {
+                node.classList.remove('highlight-node');
+            });
+            
+            // Restaurar conexiones
+            const paths = svgContainer.querySelectorAll('path');
+            paths.forEach(path => {
+                path.classList.remove('highlight-path');
+            });
+        }
+        
+        // Recalcular las conexiones cuando se redimensione la ventana
+        function handleResize() {
+            const treeWrapper = document.getElementById('tree-wrapper');
+            if (treeWrapper) {
+                // Eliminar las etiquetas de camino existentes
+                document.querySelectorAll('.path-label').forEach(label => {
+                    label.remove();
+                });
+                
+                // Volver a dibujar las conexiones
+                const levels = createTreeLevels(treeData);
+                drawConnections(levels);
+            }
+        }
+        
+        // Función auxiliar para recrear la estructura de niveles
+        function createTreeLevels(root) {
+            if (!root) return [];
+            
+            // Calculamos la profundidad del árbol
+            function getMaxDepth(node, depth = 0) {
+                if (!node) return 0;
+                if (!node.children || node.children.length === 0) return depth;
+                
+                let maxChildDepth = 0;
+                node.children.forEach(child => {
+                    const childDepth = getMaxDepth(child, depth + 1);
+                    maxChildDepth = Math.max(maxChildDepth, childDepth);
+                });
+                
+                return maxChildDepth;
+            }
+            
+            const maxDepth = getMaxDepth(root);
+            
+            // Crear un array para almacenar los nodos por nivel
+            const levels = Array(maxDepth + 1).fill().map(() => []);
+            
+            // Función para llenar los niveles
+            function fillLevels(node, depth = 0, path = '') {
+                if (!node) return;
+                
+                // Añadir el nodo al nivel correspondiente
+                levels[depth].push({
+                    node: node,
+                    path: path
+                });
+                
+                // Procesar los hijos
+                if (node.children && node.children.length > 0) {
+                    node.children.forEach((child, index) => {
+                        fillLevels(child, depth + 1, path + index);
+                    });
+                }
+            }
+            
+            fillLevels(root);
+            return levels;
+        }
+        
+        // Construir el árbol
+        if (treeData && Object.keys(treeData).length > 0) {
+            const levels = createTreeByLevels(treeData);
+            generateHuffmanCodes(levels);
+            
             // Configurar controles de zoom
             document.getElementById('zoomIn').addEventListener('click', () => {
                 scale += zoomStep;
-                treeWrapper.style.transform = `scale(${scale})`;
+                document.getElementById('tree-wrapper').style.transform = `scale(${scale})`;
+                // Actualizar las conexiones
+                setTimeout(() => {
+                    handleResize();
+                }, 300);
             });
             
             document.getElementById('zoomOut').addEventListener('click', () => {
                 if (scale > zoomStep) {
                     scale -= zoomStep;
-                    treeWrapper.style.transform = `scale(${scale})`;
+                    document.getElementById('tree-wrapper').style.transform = `scale(${scale})`;
+                    // Actualizar las conexiones
+                    setTimeout(() => {
+                        handleResize();
+                    }, 300);
                 }
             });
             
             document.getElementById('zoomReset').addEventListener('click', () => {
                 scale = 1;
-                treeWrapper.style.transform = `scale(${scale})`;
+                document.getElementById('tree-wrapper').style.transform = `scale(${scale})`;
+                // Actualizar las conexiones
+                setTimeout(() => {
+                    handleResize();
+                }, 300);
             });
             
+            // Añadir listener para redimensionamiento de ventana
+            window.addEventListener('resize', handleResize);
         } else {
-            container.innerHTML = '<div class="alert alert-warning">No hay datos disponibles para visualizar el árbol.</div>';
+            container.innerHTML = `
+                <div class="no-data-message">
+                    <div class="no-data-icon">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <h4>No hay datos disponibles para visualizar el árbol</h4>
+                    <p class="text-muted">Por favor, comprima algún texto primero para generar un árbol de Huffman.</p>
+                    <a href="/huffman" class="btn btn-primary mt-3">
+                        <i class="fas fa-compress me-2"></i>Ir a Compresión Huffman
+                    </a>
+                </div>
+            `;
+            
+            codesContainer.innerHTML = '<div class="alert alert-warning">No hay códigos disponibles.</div>';
         }
     }
     

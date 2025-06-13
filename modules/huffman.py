@@ -85,24 +85,24 @@ class HuffmanCoding:
         return decoded_text
     
     def get_tree_representation(self):
-        """Generar una representación del árbol de Huffman para visualización"""
+        """Generate a representation of the Huffman tree for visualization"""
         def traverse(node, path=""):
             if node is None:
                 return {}
-            
+        
             result = {
                 "freq": node.freq,
-                "char": node.char if node.char else "Internal",
+                "char": node.char,
                 "path": path
             }
-            
+        
             if node.left or node.right:
                 result["children"] = []
                 if node.left:
                     result["children"].append(traverse(node.left, path + "0"))
                 if node.right:
                     result["children"].append(traverse(node.right, path + "1"))
-            
-            return result
         
+            return result
+    
         return traverse(self.root)

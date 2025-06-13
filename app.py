@@ -3,6 +3,7 @@ from modules.huffman import HuffmanCoding
 from modules.des_cipher import DESCipher
 import os
 import base64
+import json
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -18,6 +19,7 @@ def huffman():
     compressed_size = 0
     compression_ratio = 0
     codes = {}
+    tree_data = {}  # Inicializar tree_data como un diccionario vacío por defecto
     
     if request.method == 'POST':
         text = request.form.get('text', '')
@@ -32,7 +34,11 @@ def huffman():
             compression_ratio = (1 - (compressed_size / original_size)) * 100 if original_size > 0 else 0
             
             # Store in session for visualization
-            session['huffman_tree'] = huffman.get_tree_representation()
+            tree_data = huffman.get_tree_representation()
+            if tree_data:  # Verificar que tree_data no sea None
+                session['huffman_tree'] = tree_data
+            else:
+                session['huffman_tree'] = {}  # Usar un diccionario vacío si tree_data es None
             
             result = {
                 'original_text': text,
@@ -44,7 +50,7 @@ def huffman():
                 'codes': codes
             }
     
-    return render_template('huffman.html', result=result)
+    return render_template('huffman.html', result=result, tree_data={} if not result else session.get('huffman_tree', {}))
 
 @app.route('/des', methods=['GET', 'POST'])
 def des():

@@ -1,13 +1,46 @@
-# GitHub Codespaces ♥️ Flask
+# Seguridad Informatica - Ilan
 
-Welcome to your shiny new Codespace running Flask! We've got everything fired up and running for you to explore Flask.
+Una aplicación web desarrollada con Flask que implementa algoritmos de compresión y criptografía, para la Codificación de Huffman y el Método DES.
 
-You've got a blank canvas to work on from a git perspective as well. There's a single initial commit with the what you're seeing right now - where you go from here is up to you!
+## 📋 Descripción
 
-Everything you do here is contained within this one codespace. There is no repository on GitHub yet. If and when you’re ready you can click "Publish Branch" and we’ll create your repository and push up your project. If you were just exploring then and have no further need for this code then you can simply delete your codespace and it's gone forever.
+Resolución de los algoritmos en seguridad informática:
 
-To run this application:
+1. **Codificación de Huffman**: Un algoritmo de compresión sin pérdida que utiliza códigos de longitud variable para representar símbolos, asignando códigos más cortos a los símbolos más frecuentes.
 
-```
-flask --debug run
-```
+2. **Cifrado DES (Data Encryption Standard)**: Un algoritmo de cifrado simétrico que opera en bloques de 64 bits con una clave de 56 bits.
+
+La aplicación proporciona una interfaz intuitiva para comprimir texto utilizando el algoritmo de Huffman, visualizar el árbol de Huffman generado, y cifrar/descifrar texto utilizando el algoritmo DES.
+
+## ✨ Características
+
+- **Compresión de Huffman**:
+  - Compresión de texto en tiempo real
+  - Visualización del árbol de Huffman
+  - Estadísticas de compresión (tamaño original, tamaño comprimido, ratio de compresión)
+  - Visualización de los códigos generados para cada carácter
+
+- **Cifrado DES**:
+  - Cifrado y descifrado de texto
+  - Implementación en modo ECB (Electronic Codebook)
+  - Visualización del texto cifrado en formato Base64
+
+- **Interfaz de Usuario**:
+  - Diseño responsivo con Bootstrap 5
+  - Navegación intuitiva
+  - Visualizaciones claras de los resultados
+
+## 🛠️ Tecnologías Utilizadas
+
+- **Backend**: Flask (Python)
+- **Frontend**: HTML, CSS, JavaScript, Bootstrap 5
+- **Librerías**:
+  - `pycryptodome` para implementación de DES
+  - Bibliotecas estándar de Python para la implementación de Huffman
+
+## 📦 Instalación
+
+1. Clona este repositorio:
+   ```bash
+   git clone https://github.com/ilanangelesrodriguez/SecureCompressionApp.git
+   cd SecureCompressionApp

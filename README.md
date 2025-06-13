@@ -42,5 +42,5 @@ La aplicación proporciona una interfaz intuitiva para comprimir texto utilizand
 
 1. Clona este repositorio:
    ```bash
-   git clone https://github.com/ilanangelesrodriguez/SecureCompressionApp.git
-   cd SecureCompressionApp
+   git clone https://github.com/ilanangelesrodriguez/secure-compression-app.git
+   cd secure-compression-app
